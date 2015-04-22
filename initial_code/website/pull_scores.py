@@ -71,8 +71,8 @@ def go(N):
 	scores = scores[1:] # Adjust for headers
 	tract_scores = get_average_score(scores)
 	sorted_scores = tract_scores[np.argsort(tract_scores[:,1])]
-	top_N_scores = check_for_nearby_tracts(sorted_scores[:,0],N)
-	return top_N_scores
+	#top_N_scores = check_for_nearby_tracts(sorted_scores[:,0],N)
+	return sorted_scores[:N,0]
 
 if __name__ == '__main__':
 	pass
