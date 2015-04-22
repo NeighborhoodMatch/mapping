@@ -4,6 +4,10 @@ Contains code that can be used to filter locations given a list of census tracts
 This code is covered by the license listed in the LICENSE file in this repository.
 
 ###############
+Run Django website from initial_code>website $ python manage.py runserver
+Navigate to http://127.0.0.1:8000/nmatch/home/
+
+###############
 Geocoding:
 geocoding.py contains code to look up a census tract based on either a lat/long or address. It calls the census website (hardcoded) and is relatively slow. If you find a better way to get a census tract via API please replace!
 geocode_library.json is a dictionary keyed with either addresses or lat/longs. This can be checked before doing a lookup. Geocoding.py also writes to here to prevent multiple lookups to the slow census site.
