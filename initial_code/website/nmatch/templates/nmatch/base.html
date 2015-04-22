@@ -1,0 +1,48 @@
+{% load staticfiles %}
+<!doctype html>
+<html>
+
+
+
+<head>
+	<meta charset="utf-8">
+	<title>{% block title %} Neighborhood Match {% endblock %}</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'nmatch/main.css' %}" />
+	<style>
+		h1, h3, h4 {
+			margin-left: 1cm;
+			margin-right: 1cm;
+			font-family: "Arial", Arial, sans-serif;
+		}
+		a, ul, h2 {
+			font-family: "Arial", Arial, sans-serif;
+		}
+		p {
+			margin-left : 1cm;
+			margin-right: 1cm;
+			font-family: "Arial", Arial, sans-serif;
+		}
+		li {
+			list-style-type: none;
+			margin-left: 1cm;
+			margin-right: 1cm;
+			margin-bottom: 5px;
+			font-family: "Arial", Arial, sans-serif;
+		}
+	</style>
+</head>
+
+<body>
+	<a href="{% url 'nmatch:home' %}">home</a> |
+	<a href="{% url 'nmatch:about' %}">about</a> |
+	<a href="{% url 'nmatch:survey' %}">start survey</a> 
+
+	<div id='header'>
+		<h1>Neighborhood Match</h1>
+	</div>
+	
+	{% block body %}
+	{% endblock %}
+
+</body>
+</html>

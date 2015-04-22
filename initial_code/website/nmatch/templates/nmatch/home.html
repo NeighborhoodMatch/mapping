@@ -1,0 +1,43 @@
+{% extends 'nmatch/base.html' %}
+
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+{% block body %}
+
+<head>
+
+<style>
+html {
+    background-image: url("https://farm4.staticflickr.com/3690/11619832495_2a788a143b_o.jpg");
+    background-size: cover;
+    background-repeat: no-repeat; 
+}
+h1 {
+    color: white;
+    font-family: "Arial", Arial, sans-serif;
+}
+p {
+    color: white;
+    font-family: "Arial", Arial, sans-serif;
+}
+a {
+	color: yellow;
+
+}
+</style>
+
+
+</head>
+
+<body>
+<p>Welcome! This is a tool to help you find the neighborhood that match your preferences.</p>
+<p>To find your neighborhood:</p>
+<p><a href="{% url 'nmatch:survey' %}">Start here!</a></p>
+
+
+
+</body>
+{% endblock %}
+</html>

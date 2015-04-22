@@ -1,0 +1,40 @@
+{% extends 'nmatch/base.html' %}
+
+{% load staticfiles %}
+
+<!DOCTYPE html>
+
+
+<html>
+<title>Questions</title>           
+<link rel="stylesheet" type="text/css" href="{% static 'nmatch/style.css' %}" />
+
+{% block body %}
+
+<h3>Please tell us about your preferences. We'll need an answer for each question.</h3>
+
+    <body>
+        <div class="frame">
+            <form method="get">
+                <table class="form">
+             
+             	{% for field in form %}
+
+             		{% if field.label == "Housing type" %}
+             			<h3>How would you rank these categories?</h3>
+                        <h4>Selecting '1' means it's not important to me and '5' means it's essential. Ranking everything the same means that they're equally important to you.</h4>
+             		{% endif %}
+                   
+                <li>{{ field.label }} {{ field }}  <i>{{ field.help_text }}</i></li>
+
+                {% endfor %}
+
+                </table>
+                <input type="submit" value="Submit" style="margin-left: 1cm" />
+            </form>
+        </div>
+
+    </body>
+
+{% endblock %}
+</html>

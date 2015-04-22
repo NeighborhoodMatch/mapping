@@ -1,0 +1,27 @@
+{% extends 'nmatch/base.html' %}
+
+{% load staticfiles %}
+
+<!DOCTYPE html>
+
+<html>
+<title>Questions</title>           
+<link rel="stylesheet" type="text/css" href="{% static 'nmatch/style.css' %}" />
+
+{% block body %}
+
+
+
+<body>
+    <div class="frame">
+		<form method="get">
+			<li>Hello CAPP!</li> {{ form.as_p }}
+
+         	<input type="submit" value="Submit" style="margin-left: 1cm" />
+    	</form>
+    </div>
+
+</body>
+
+{% endblock %}
+</html>

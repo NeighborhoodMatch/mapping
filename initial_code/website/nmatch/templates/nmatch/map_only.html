@@ -1,0 +1,78 @@
+{% extends 'nmatch/base.html' %}
+
+<!DOCTYPE html>
+<html>
+
+{% block body %}
+
+ <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Neighborhood matches</title>
+    <style>
+      html, body, #map-canvas {
+        height: 100%;
+        margin-bottom: 25px;
+        padding: 0px
+      }
+
+    </style>
+  </head> 
+
+<body>
+
+<p><b>Check out your neighborhood matches in blue below.</b></p>
+
+<p>Click on a match -- or any neighborhood -- to learn more about it. You'll see how much money
+  the typical person spends on their rent or mortgage each month, how walkable the area is,
+  and what the crime rate is in the community. We've taken data from neighborhing tracts to find your matches, so click on the nearby tracts if you want to learn more about that neighborhood.</p>
+
+<p>You'll also see what <b>amenities</b> are in the neighborhood. General amenities are things like
+  grocery stores and markets. Commercial businesses might include a dry cleaner, salon, or 
+  hardware store. Amenities for adults include restaurants, bars, and clubs. We've also 
+  identified how many amenities there are specifically for children and seniors in the area.</p>
+
+
+
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJROPaxoCXvvMlvVP7PQ3Y3MdGk3NAhfM"></script>
+
+    <script>
+
+var map, layer;
+
+function initialize() {
+
+  var chicago = new google.maps.LatLng(41.850033, -87.6500523);
+
+  map = new google.maps.Map(document.getElementById('map-canvas'), {
+    center: chicago,
+    zoom: 10
+  });
+
+  layer = new google.maps.FusionTablesLayer({
+    query: {
+      select: 'geometry',
+      from: '1n1JemiqjVuSzyfB58yOYF91Zj37ENpFQMwsbhj60'
+      },
+    styleId: 2,
+    templateId: 2,
+    styles: [   {{ java_str|safe }}  ]
+    });
+
+  layer.setMap(map);
+}
+ 
+google.maps.event.addDomListener(window, 'load', initialize);
+
+  </script>
+
+  <body>
+    <div id="map-canvas" style="margin-left: 50px; margin-right: 50px"></div>
+  </body>
+
+  </body>
+
+
+{% endblock %}
+</html>

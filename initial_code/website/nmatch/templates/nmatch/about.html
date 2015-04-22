@@ -1,0 +1,52 @@
+{% extends 'nmatch/base.html' %}
+{% load staticfiles %}
+
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>About</title>
+	<link rel="stylesheet" href="{% static 'main/style.css' %}" type="text/css" />
+
+
+</head>
+
+{% block title %}
+About Neighborhood Match
+{% endblock %}
+<p></p>
+
+{% block body %}
+
+
+<head>
+
+<style>
+html {
+    background-image: url("https://farm4.staticflickr.com/3690/11619832495_2a788a143b_o.jpg");
+    background-size: cover;
+    background-repeat: no-repeat; 
+}
+h1 {
+    color: white;
+    font-family: "Arial", Arial, sans-serif;
+}
+p {
+    color: white;
+    font-family: "Arial", Arial, sans-serif;
+}
+a {
+	color: yellow;
+}
+</style>
+
+
+</head>
+
+<p>Neighborhood match was developed by three graduate students at the Harris School of Public Policy at the University of Chicago. It was inspired by the diversity of Chicago neighborhoods and the data collected and made availabile through the Chicago Open Data Portal. Neighborhood match transforms this data into a usable tool for individuals to find communities that match their preferences. </p>
+<li></li>
+<p>We developed a matching algorithm and applied it to datasets from the Chicago Open Portal. Although data is collected on many neighborhood characteristics, for example, housing stock, business type, parks, etc, in this process, we found that the data does not map precisely to the complexities of people's preferences.</p>
+<li></li>
+<p>We hope that the results from Neighborhood match provide an adequate approximation of people's preferences and help families and individuals find a community to call home.</p>
+{% endblock %}
+
+</html>
