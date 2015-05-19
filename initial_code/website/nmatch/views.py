@@ -6,12 +6,42 @@ from django.utils.safestring import mark_safe
 from pull_scores import *
 
 ALL_TRACTS = 802
+'''
+All values are floats, the number of stores in a census tract
 
 
-Q_1 = "What type of house do you want to live in?"
-Q_2 = "How much do you want to spend on housing each month?"
-Q_3 = "Who do you want to be your neighbors?"
-Q_4 = "What special amenities do you want nearby?"
+Childcare services (including eaerly learnign programs and Children service facilities)
+'amen_child_early_learning", "amen_child_child_biz"
+
+Youth Centers
+amen_child_youth_centers
+
+Library
+amen_gen_LIBRARYNAME 
+
+Senior centers
+amen_senior_senior_centers
+
+Commercial businsses
+amen_gen_commerical_biz
+
+Farmer's markets
+amen_gen_farmers_markets
+
+Restaurants and bars
+amen_adult_restaurant_bar
+
+Event spaces, performing arts venues, etc.
+amen_adult_entertainment_biz 
+'''
+
+
+# Q = "What income range are you targeting?" #find widget for range
+Q_1 = "Is housing type important? What type?"
+Q_2 = "Target rent for area around business?"
+Q_3 = "What age are your target customers?"
+Q_4 = "What special amenities do you want nearby?" 
+
 Q_5 = "How do you get around?"
 Q_6 = "How would you rank these categories?"
 
@@ -21,12 +51,12 @@ CHOICES_1 = [("housing_HOU1DET_by_housing_HOUTOT", 'Detached house'),
 			("housing_HOUSMALLAPT_by_housing_HOUTOT", 'Small apartment building (1-9 units)'),
 	 		("housing_HOUBIGAPT_by_housing_HOUTOT", 'Big apartment building (10+)')]
 
-CHOICES_3 = [("age_AGE09_by_age_AGEPOP", "Young children (ages 0-9)"), 
+CHOICES_3 = [("age_AGE09_by_age_AGEPOP", "Children (ages 0-9)"), 
 			("age_AGE1019_by_age_AGEPOP", "Tweens to teens (ages 10-19)"), 
-			("age_AGE2034_by_age_AGEPOP", "Residents ages 20-34"),
-	 		("age_AGE3549_by_age_AGEPOP", "Residents ages 35-49"), 
-	 		("age_AGE5064_by_age_AGEPOP", "Residents ages 50-64"), 
-	 		("age_AGE65_by_age_AGEPOP", "Residents 65 years+")]
+			("age_AGE2034_by_age_AGEPOP", "Ages 20-34"),
+	 		("age_AGE3549_by_age_AGEPOP", "Ages 35-49"), 
+	 		("age_AGE5064_by_age_AGEPOP", "Ages 50-64"), 
+	 		("age_AGE65_by_age_AGEPOP", "Ages 65 years+")]
 CHOICES_4 = [("amen_child", "Stuff to do with my kids"), 
 			("amen_adult", "Places to socialize and go with friends"), 
 	 		("amen_senior", "Things to do with other retirees")]
