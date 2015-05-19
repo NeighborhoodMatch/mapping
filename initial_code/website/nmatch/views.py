@@ -7,12 +7,71 @@ from pull_scores import *
 
 ALL_TRACTS = 802
 
-class CAPP_Form(forms.Form):
-	yes = forms.ChoiceField(
-				label="Go to map?",
-				choices=[("YES", "Gladly!")],
+
+Q_1 = "What type of house do you want to live in?"
+Q_2 = "How much do you want to spend on housing each month?"
+Q_3 = "Who do you want to be your neighbors?"
+Q_4 = "What special amenities do you want nearby?"
+Q_5 = "How do you get around?"
+Q_6 = "How would you rank these categories?"
+
+
+CHOICES_1 = [("housing_HOU1DET_by_housing_HOUTOT", 'Detached house'), 
+			("housing_HOU1ATT_by_housing_HOUTOT", 'Attached house (townhouse)'), 
+			("housing_HOUSMALLAPT_by_housing_HOUTOT", 'Small apartment building (1-9 units)'),
+	 		("housing_HOUBIGAPT_by_housing_HOUTOT", 'Big apartment building (10+)')]
+
+CHOICES_3 = [("age_AGE09_by_age_AGEPOP", "Young children (ages 0-9)"), 
+			("age_AGE1019_by_age_AGEPOP", "Tweens to teens (ages 10-19)"), 
+			("age_AGE2034_by_age_AGEPOP", "Residents ages 20-34"),
+	 		("age_AGE3549_by_age_AGEPOP", "Residents ages 35-49"), 
+	 		("age_AGE5064_by_age_AGEPOP", "Residents ages 50-64"), 
+	 		("age_AGE65_by_age_AGEPOP", "Residents 65 years+")]
+CHOICES_4 = [("amen_child", "Stuff to do with my kids"), 
+			("amen_adult", "Places to socialize and go with friends"), 
+	 		("amen_senior", "Things to do with other retirees")]
+CHOICES_5 = [("trans_WALKSCORE", "Walk"), ("trans_trans_by_geo_sq_mileage", "Public transportation"), ("trans_drive", "Drive")]
+CHOICES_6 = [("housing", "Housing type"),
+			("house_cost", "Housing cost"), 
+			("neighbor", "My neighbors"), 	
+			("amen", "Special amenitites"),
+			("amen_gen", "Everyday amenities"), 
+			("trans", "Transportation"),
+			("crime", "Neighborhood safety")]
+
+
+
+
+class PreferenceForm(forms.Form):
+	housing = forms.ChoiceField(
+				label=Q_1,
+				choices=CHOICES_1,
 				widget=forms.RadioSelect,
 				required=True)
+	house_cost = forms.IntegerField(
+				label=Q_2,
+				widget=forms.NumberInput,
+				min_value=1,
+				max_value=1000000,
+				required=True)	
+	age = forms.ChoiceField(
+				label=Q_3,
+				choices=CHOICES_3,
+				widget=forms.RadioSelect,
+				required=True,
+				error_messages = {'required': 'You skipped this one!'} )
+	amenities = forms.ChoiceField(
+				label=Q_4,
+				choices=CHOICES_4,
+				widget=forms.RadioSelect,
+				required=True)
+	trans = forms.ChoiceField(
+				label=Q_5,
+				choices=CHOICES_5,
+				widget=forms.RadioSelect,
+				required=True)
+	
+
 
 def about(request):
 	c = {}
@@ -24,14 +83,36 @@ def home(request):
 
 def survey_CAPP(request):
 	c = {}
-	args = {}
-	
+	args ={}
+	c['error'] = None
+
 	if request.method == 'GET':
-		form = CAPP_Form(request.GET)
+		#create a form instance and populate it with data from the request
+		form = PreferenceForm(request.GET)
+		#check whether it's valid
 		if form.is_valid():
-			to_map = form.cleaned_data['yes']
-			if to_map:
-				args['yes'] = to_map
+			#add form data to an args dictionary 
+			h_type = form.cleaned_data['housing']
+			if h_type:
+				args['housing'] = h_type
+			
+			h_cost = form.cleaned_data['house_cost']
+			if h_cost:
+				args['house_cost'] = h_cost
+
+			neigh = form.cleaned_data['age']
+			if neigh:
+				args['age'] = neigh
+
+			amen = form.cleaned_data['amenities']
+			if amen:
+				args['amenities'] = amen
+
+			trans = form.cleaned_data['trans']
+			if trans:
+				args['trans'] = trans
+			
+			
 
 			#add args to c dictionary
 			c['args'] = args
@@ -39,14 +120,17 @@ def survey_CAPP(request):
 			#get matching tracts and make javascript string
 			if c['args'] is not None:
 				#gets list of matching tracts
-				tracts = go(ALL_TRACTS)
+				tracts = go(args, 5)
 				c['tracts'] = tracts
 				java_str = get_string(tracts)
 				c['java_str'] = java_str
 				return render(request, 'nmatch/map_only.html', c)
+
 		else:
-			form = CAPP_Form()
+			form = PreferenceForm()
+
 	c['form'] = form
+
 	return render(request, 'nmatch/survey_CAPP.html', c)
 
 
