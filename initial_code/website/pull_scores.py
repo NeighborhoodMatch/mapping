@@ -78,7 +78,7 @@ def get_matching_tracts(args, sorted_scores):
 	return rv
 # Main function for site to call
 
-def go(N):
+def go(N,args):
 	'''
 	Runs file and returns list of top N tracts
 	'''
@@ -87,7 +87,7 @@ def go(N):
 	scores = scores[1:] # Adjust for headers
 	tract_scores = get_average_score(scores)
 	sorted_scores = tract_scores[np.argsort(tract_scores[:,1])]
-	#top_N_scores = check_for_nearby_tracts(sorted_scores[:,0],N)
+	matching_scores = get_matching_tracts(args,sorted_scores[:,0])
 	return sorted_scores[:N,0]
 
 if __name__ == '__main__':
