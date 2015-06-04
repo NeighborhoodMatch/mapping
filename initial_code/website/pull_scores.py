@@ -68,9 +68,13 @@ def get_matching_tracts(args, sorted_scores):
 		if arg == 'housing':
 			where += args[arg] + '>0.1 AND' 
 		if arg == 'house_cost_hi':
-			where += args[arg] 
-
-
+			where += 'housing_HOUCOST' +'<' + args[arg] +' AND'
+		if arg == 'house_cost_lo':
+			where += 'housing_HOUCOST' +'>' + args[arg] +' AND' 
+		if arg == 'age':
+			where += args[arg] + '>0.1 AND' 
+		if arg == 'amenities':
+			where += args[arg] + '>0.1 AND' 
 
 
 	select = 'select tract from multiple_tracts'
