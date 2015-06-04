@@ -66,18 +66,29 @@ def get_matching_tracts(args, sorted_scores):
 
 	for arg in args:
 		if arg == 'housing':
-			where += args[arg] + '>0.1 AND' 
+			where += args[arg] + '>0.1 AND ' 
 		if arg == 'house_cost_hi':
-			where += 'housing_HOUCOST' +'<' + args[arg] +' AND'
+			where += 'housing_HOUCOST' +'<' + str(args[arg]) +' AND '
 		if arg == 'house_cost_lo':
-			where += 'housing_HOUCOST' +'>' + args[arg] +' AND' 
+			where += 'housing_HOUCOST' +'>' + str(args[arg]) +' AND ' 
 		if arg == 'age':
-			where += args[arg] + '>0.1 AND' 
+			where += args[arg] + '>0.1 AND ' 
 		if arg == 'amenities':
-			where += args[arg] + '>0.1 AND' 
+			if args[arg]=='amen_child':
+				where += '(amen_child_early_learning > 0 OR amen_child_child_biz >0) AND '
+  			if args[arg]=='amen_adult':
+  				where += 'amen_adult_restaurant_bar > 2 AND '
+  			if args[arg]=='amen_senior':
+				where += 'amen_senior_senior_centers > 1 AND ' 
+		if arg == 'amenities_all':	
+			for col in args[arg]:
+				if col == "amen_gen_LIBRARYNAME":
+					where += "amen_gen_LIBRARYNAME >0 AND "
+				if col == "amen_gen_farmers_markets":
+					where += 'amen_gen_farmers_markets >0 AND '
 
-
-	select = 'select tract from multiple_tracts'
+	where = where[:-5]
+	select = 'select tract from multiple_tracts '
 	query = select + where
 
 	included_tracts = call_data_base(query)
