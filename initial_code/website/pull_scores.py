@@ -61,8 +61,17 @@ def check_for_nearby_tracts(sorted_scores,N):
 	return rv
 
 def get_matching_tracts(args, sorted_scores):
+	
+	where = 'where '# Do somethng with args to convert to query
 
-	where = ''# Do somethng with args to convert to query
+	for arg in args:
+		if arg == 'housing':
+			where += args[arg] + '>0.1 AND' 
+		if arg == 'house_cost_hi':
+			where += args[arg] 
+
+
+
 
 	select = 'select tract from multiple_tracts'
 	query = select + where
@@ -82,6 +91,13 @@ def go(N,args):
 	'''
 	Runs file and returns list of top N tracts
 	'''
+
+# ?housing=housing_HOUSMALLAPT_by_housing_HOUTOT&house_cost_hi=900&
+# house_cost_lo=300&age=age_AGE1019_by_age_AGEPOP&
+# amenities=amen_child&trans=trans_WALKSCORE&
+# amenities_all=[%27amen_child_early_learning%27%2C+%27amen_child_child_biz%27]&
+# amenities_all=amen_child_youth_centers&amenities_all=amen_gen_LIBRARYNAME&
+# amenities_all=amen_senior_senior_centers&amenities_all=amen_gen_farmers_markets
 
 	scores = call_data_base('select * from score_table')
 	scores = scores[1:] # Adjust for headers
