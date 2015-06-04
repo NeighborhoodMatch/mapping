@@ -61,25 +61,31 @@ def check_for_nearby_tracts(sorted_scores,N):
 	return rv
 
 def get_matching_tracts(args, sorted_scores):
+
+######################################################
+##
+##		FOR OTHER FILTERING, ADD TO SEQUEL QUERY HERE 
+##
+######################################################	
 	
 	where = 'where '# Do somethng with args to convert to query
 
 	for arg in args:
 		if arg == 'housing':
-			where += args[arg] + '>0.1 AND ' 
+			where += args[arg] + '>0.01 AND ' 
 		if arg == 'house_cost_hi':
 			where += 'housing_HOUCOST' +'<' + str(args[arg]) +' AND '
 		if arg == 'house_cost_lo':
 			where += 'housing_HOUCOST' +'>' + str(args[arg]) +' AND ' 
 		if arg == 'age':
-			where += args[arg] + '>0.1 AND ' 
+			where += args[arg] + '>0.01 AND ' 
 		if arg == 'amenities':
 			if args[arg]=='amen_child':
 				where += '(amen_child_early_learning > 0 OR amen_child_child_biz >0) AND '
   			if args[arg]=='amen_adult':
   				where += 'amen_adult_restaurant_bar > 2 AND '
   			if args[arg]=='amen_senior':
-				where += 'amen_senior_senior_centers > 1 AND ' 
+				where += 'amen_senior_senior_centers > 0 AND ' 
 		if arg == 'amenities_all':	
 			for col in args[arg]:
 				if col == "amen_gen_LIBRARYNAME":
@@ -90,9 +96,18 @@ def get_matching_tracts(args, sorted_scores):
 	where = where[:-5]
 	select = 'select tract from multiple_tracts '
 	query = select + where
+	print query
+
+######################################################
+##
+##		'included_tracts' ARE CENSUS TRACTS THAT 'OK' TO BE ADDED
+##		USE THIS TO FILTER TRACT THAT NEED TO BE EXCLUDED
+##		AND PUT THROUGH FOR LOOP
+##		
+######################################################	
 
 	included_tracts = call_data_base(query)
-
+	print included_tracts
 	rv = []
 	
 	for tract in sorted_scores:
@@ -100,6 +115,9 @@ def get_matching_tracts(args, sorted_scores):
 			rv.append(tract)
 	
 	return rv
+
+
+
 # Main function for site to call
 
 def go(N,args):
@@ -119,7 +137,7 @@ def go(N,args):
 	tract_scores = get_average_score(scores)
 	sorted_scores = tract_scores[np.argsort(tract_scores[:,1])]
 	matching_scores = get_matching_tracts(args,sorted_scores[:,0])
-	return sorted_scores[:N,0]
+	return sorted_scores[-N:,0]
 
 if __name__ == '__main__':
 	pass
